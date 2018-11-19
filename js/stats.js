@@ -23,8 +23,15 @@ var renderCloud = function (ctx, color, x, y) {
 };
 
 var getMaxTime = function (arr) {
-  var max = arr[0];
+  var max;
   for (var i = 0; i < arr.length; i++) {
+    if (typeof arr[i] === 'undefined') {
+      continue;
+    }
+    max = arr[i];
+    break;
+  }
+  for (i = 0; i < arr.length; i++) {
     if (arr[i] > max) {
       max = arr[i];
     }
