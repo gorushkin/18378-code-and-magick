@@ -17,8 +17,6 @@ var BAR_WIDTH = 40;
 var BAR_MARGIN = 50;
 var PLAYER_NAME = 'Вы';
 
-
-
 var renderCloud = function (ctx, color, x, y) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
@@ -36,15 +34,23 @@ var getMaxTime = function (arr) {
 
 var selectColor = function(player) {
   if (player === PLAYER_NAME) {
-    return PLAYER_TEXT_COLOR
+    return PLAYER_BAR_COLOR
   }
   return 'hsl(228, ' + Math.floor(Math.random() * 101) + '%' + ', 37%)';
 }
 
-var drawBar = function (ctx, x, y, height, name) {
+// var drawBar = function (ctx, x, y, height, name) {
+//   ctx.fillStyle = selectColor(name);
+//   ctx.fillRect(x, y, BAR_WIDTH, height);
+// };
+
+var drawHist = function(ctx, name, time, n, maxTime) {
+  ctx.fillStyle = TEXT_COLOR;
+  ctx.fillText(name, CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT - YGAP);
+  ctx.fillText(Math.floor(time), CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT * 3 - BAR_HEIGHT * Math.floor(time) / maxTime);
   ctx.fillStyle = selectColor(name);
-  ctx.fillRect(x, y, BAR_WIDTH, height);
-};
+  ctx.fillRect(CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT * 2, BAR_WIDTH, -BAR_HEIGHT * Math.floor(time) / maxTime);
+}
 
 window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, CLOUD_SHADOW_COLOR, CLOYD_X + ClOUD_OFFSET, CLOYD_Y + ClOUD_OFFSET);
@@ -59,9 +65,6 @@ window.renderStatistics = function (ctx, names, times) {
   var maxTime = getMaxTime(times);
 
   for (var i = 0; i < names.length; i++) {
-    ctx.fillStyle = TEXT_COLOR;
-    ctx.fillText(names[i], CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * i, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT - YGAP);
-    ctx.fillText(Math.floor(times[i]), CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * i, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT * 3 - BAR_HEIGHT * Math.floor(times[i]) / maxTime);
-    drawBar(ctx, CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * i, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT * 2, -BAR_HEIGHT * Math.floor(times[i]) / maxTime, names[i]);
+    drawHist(ctx, names[i], times[i], i, maxTime);
   }
 };
