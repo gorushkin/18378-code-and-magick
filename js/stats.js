@@ -4,7 +4,7 @@ var CLOYD_X = 110;
 var CLOYD_Y = 10;
 var CLOUD_WIDTH = 420;
 var CLOUD_HEIGHT = 270;
-var ClOUD_OFFSET = 10;
+var SHADOW_OFFSET = 10;
 var CLOUD_COLOR = '#fff';
 var CLOUD_SHADOW_COLOR = 'rgba(0, 0, 0, 0.7)';
 var YGAP = 10;
@@ -32,28 +32,23 @@ var getMaxTime = function (arr) {
   return max;
 };
 
-var selectColor = function(player) {
+var selectColor = function (player) {
   if (player === PLAYER_NAME) {
-    return PLAYER_BAR_COLOR
+    return PLAYER_BAR_COLOR;
   }
   return 'hsl(228, ' + Math.floor(Math.random() * 101) + '%' + ', 37%)';
-}
+};
 
-// var drawBar = function (ctx, x, y, height, name) {
-//   ctx.fillStyle = selectColor(name);
-//   ctx.fillRect(x, y, BAR_WIDTH, height);
-// };
-
-var drawHist = function(ctx, name, time, n, maxTime) {
+var drawHist = function (ctx, name, time, n, maxTime) {
   ctx.fillStyle = TEXT_COLOR;
   ctx.fillText(name, CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT - YGAP);
   ctx.fillText(Math.floor(time), CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT * 3 - BAR_HEIGHT * Math.floor(time) / maxTime);
   ctx.fillStyle = selectColor(name);
   ctx.fillRect(CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT * 2, BAR_WIDTH, -BAR_HEIGHT * Math.floor(time) / maxTime);
-}
+};
 
 window.renderStatistics = function (ctx, names, times) {
-  renderCloud(ctx, CLOUD_SHADOW_COLOR, CLOYD_X + ClOUD_OFFSET, CLOYD_Y + ClOUD_OFFSET);
+  renderCloud(ctx, CLOUD_SHADOW_COLOR, CLOYD_X + SHADOW_OFFSET, CLOYD_Y + SHADOW_OFFSET);
   renderCloud(ctx, CLOUD_COLOR, CLOYD_X, CLOYD_Y);
 
   ctx.fillStyle = TEXT_COLOR;
