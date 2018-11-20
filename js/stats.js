@@ -12,11 +12,11 @@ var XGAP = 30;
 var TEXT_HEIGHT = 16;
 var TEXT_COLOR = '#000000';
 var FONT = 'PT Mono';
-var PLAYER_BAR_COLOR = 'rgba(255, 0, 0, 1)';
 var BAR_HEIGHT = 150;
 var BAR_WIDTH = 40;
 var BAR_MARGIN = 50;
-var PLAYER_NAME = 'Вы';
+var CURRENT_PLAYER_NAME = 'Вы';
+var CURRENT_PLAYER_BAR_COLOR = 'rgba(255, 0, 0, 1)';
 var WIN_MESSAGE = 'Ура вы победили!';
 var LIST_TITLE = 'Список результатов:';
 var BASELINE = 'hanging';
@@ -27,15 +27,8 @@ var renderCloud = function (ctx, color, x, y) {
 };
 
 var getMaxValue = function (arr) {
-  var max;
+  var max = 0;
   for (var i = 0; i < arr.length; i++) {
-    if (typeof arr[i] === 'undefined') {
-      continue;
-    }
-    max = arr[i];
-    break;
-  }
-  for (i = 0; i < arr.length; i++) {
     if (arr[i] > max) {
       max = arr[i];
     }
@@ -43,14 +36,14 @@ var getMaxValue = function (arr) {
   return max;
 };
 
-var getColor = function (currentPlayer) {
-  if (PLAYER_NAME  === currentPlayer) {
-    return PLAYER_BAR_COLOR;
+var getColor = function (playerName) {
+  if (playerName === CURRENT_PLAYER_NAME) {
+    return CURRENT_PLAYER_BAR_COLOR;
   }
   return 'hsl(228, ' + Math.floor(Math.random() * 101) + '%' + ', 37%)';
 };
 
-var drawHist = function (ctx, name, time, n, maxTime) {
+var renderHistogram = function (ctx, name, time, n, maxTime) {
   ctx.fillStyle = TEXT_COLOR;
   ctx.fillText(name, CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT - YGAP);
   ctx.fillText(Math.floor(time), CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT * 3 - BAR_HEIGHT * Math.floor(time) / maxTime);
@@ -71,6 +64,6 @@ window.renderStatistics = function (ctx, names, times) {
   var maxTime = getMaxValue(times);
 
   for (var i = 0; i < names.length; i++) {
-    drawHist(ctx, names[i], times[i], i, maxTime);
+    renderHistogram(ctx, names[i], times[i], i, maxTime);
   }
 };
