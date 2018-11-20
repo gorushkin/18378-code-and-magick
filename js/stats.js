@@ -43,12 +43,12 @@ var getColor = function (playerName) {
   return 'hsl(228, ' + Math.floor(Math.random() * 101) + '%' + ', 37%)';
 };
 
-var renderHistogram = function (ctx, name, time, n, maxTime) {
+var renderHistogram = function (ctx, name, result, n, bestResult) {
   ctx.fillStyle = TEXT_COLOR;
   ctx.fillText(name, CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT - YGAP);
-  ctx.fillText(Math.floor(time), CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT * 3 - BAR_HEIGHT * Math.floor(time) / maxTime);
+  ctx.fillText(Math.floor(result), CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT * 3 - BAR_HEIGHT * Math.floor(result) / bestResult);
   ctx.fillStyle = getColor(name);
-  ctx.fillRect(CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT * 2, BAR_WIDTH, -BAR_HEIGHT * Math.floor(time) / maxTime);
+  ctx.fillRect(CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT * 2, BAR_WIDTH, -BAR_HEIGHT * Math.floor(result) / bestResult);
 };
 
 window.renderStatistics = function (ctx, playersNames, playersResults) {
