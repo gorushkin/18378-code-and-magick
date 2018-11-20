@@ -51,7 +51,7 @@ var renderHistogram = function (ctx, name, time, n, maxTime) {
   ctx.fillRect(CLOYD_X + XGAP + (BAR_WIDTH + BAR_MARGIN) * n, CLOYD_Y + CLOUD_HEIGHT - TEXT_HEIGHT * 2, BAR_WIDTH, -BAR_HEIGHT * Math.floor(time) / maxTime);
 };
 
-window.renderStatistics = function (ctx, names, times) {
+window.renderStatistics = function (ctx, playersNames, playersResults) {
   renderCloud(ctx, CLOUD_SHADOW_COLOR, CLOYD_X + SHADOW_OFFSET, CLOYD_Y + SHADOW_OFFSET);
   renderCloud(ctx, CLOUD_COLOR, CLOYD_X, CLOYD_Y);
 
@@ -61,9 +61,9 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText(WIN_MESSAGE, CLOYD_X + XGAP, CLOYD_Y + YGAP);
   ctx.fillText(LIST_TITLE, CLOYD_X + XGAP, CLOYD_Y + TEXT_HEIGHT + YGAP);
 
-  var maxTime = getMaxValue(times);
+  var bestResult = getMaxValue(playersResults);
 
-  for (var i = 0; i < names.length; i++) {
-    renderHistogram(ctx, names[i], times[i], i, maxTime);
+  for (var i = 0; i < playersNames.length; i++) {
+    renderHistogram(ctx, playersNames[i], playersResults[i], i, bestResult);
   }
 };
