@@ -10,17 +10,15 @@ var WIZARD_COAT_COLOR_CLASS = '.wizard-coat';
 var WIZARD_EYES_COLOR_CLASS = '.wizard-eyes';
 var SETUP_WINDOW_CLASS = '.setup';
 var HIDDEN_CLASS = 'hidden';
-var SIMILAR_LIST = '.setup-similar-list';
-var SIMILAR_WIZARD_TEMPLATE = '#similar-wizard-template';
-var SIMILAR_WIZARD_ITEM = '.setup-similar-item';
-var SIMILAR_LIST_WRAPPER = '.setup-similar';
+var SIMILAR_WIZARD_TEMPLATE_CLASS = '#similar-wizard-template';
+var SIMILAR_LIST_WRAPPER_CLASS = '.setup-similar';
+var SIMILAR_LIST_CLASS = '.setup-similar-list';
+var SIMILAR_LIST_ITEM_CLASS = '.setup-similar-item';
 
 var setupWindow = document.querySelector(SETUP_WINDOW_CLASS);
 setupWindow.classList.remove(HIDDEN_CLASS);
-
-var similarListElement = setupWindow.querySelector(SIMILAR_LIST);
-
-var similarWizardTemplate = document.querySelector(SIMILAR_WIZARD_TEMPLATE).content.querySelector(SIMILAR_WIZARD_ITEM);
+var similarListElement = setupWindow.querySelector(SIMILAR_LIST_CLASS);
+var similarWizardTemplate = document.querySelector(SIMILAR_WIZARD_TEMPLATE_CLASS).content.querySelector(SIMILAR_LIST_ITEM_CLASS);
 
 var getRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -43,7 +41,6 @@ var renderWizard = function (name, coatColor, eyesColor) {
 };
 
 var wizardList = [];
-
 var fragment = document.createDocumentFragment();
 
 for (var i = 0; i < WIZARD_LIST_SIZE; i++) {
@@ -53,4 +50,4 @@ for (var i = 0; i < WIZARD_LIST_SIZE; i++) {
 
 similarListElement.appendChild(fragment);
 
-setupWindow.querySelector(SIMILAR_LIST_WRAPPER).classList.remove(HIDDEN_CLASS);
+setupWindow.querySelector(SIMILAR_LIST_WRAPPER_CLASS).classList.remove(HIDDEN_CLASS);
