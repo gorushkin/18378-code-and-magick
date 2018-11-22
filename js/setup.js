@@ -5,7 +5,7 @@ var LAST_NAMES_LIST = ['да Марья', 'Верон', 'Мирабелла', '�
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var NUMBER_OF_WIZARDS = 4;
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-var HIDE_SELECTOR = 'hidden';
+var HIDE_CLASS = 'hidden';
 
 var Selectors = {
   wizardName: '.setup-similar-label',
@@ -20,7 +20,7 @@ var Selectors = {
 
 
 var setupPopup = document.querySelector(Selectors.setupPopup);
-setupPopup.classList.remove(HIDE_SELECTOR);
+setupPopup.classList.remove(HIDE_CLASS);
 var similarListElement = setupPopup.querySelector(Selectors.similarList);
 var similarWizardTemplate = document.querySelector(Selectors.similarWizardTemplate).content.querySelector(Selectors.similarListItem);
 
@@ -54,4 +54,4 @@ for (var i = 0; i < NUMBER_OF_WIZARDS; i++) {
 
 similarListElement.appendChild(fragment);
 
-setupPopup.querySelector(Selectors.similarListWrapper).classList.remove(HIDE_SELECTOR);
+setupPopup.querySelector(Selectors.similarListWrapper).classList.remove(HIDE_CLASS);
