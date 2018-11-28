@@ -3,6 +3,7 @@
 var FIRST_NAMES_LIST = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var LAST_NAMES_LIST = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 var NUMBER_OF_WIZARDS = 4;
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var ESC_KEYCODE = 27;
@@ -23,7 +24,10 @@ var Selectors = {
   SETUP_CLOSE_BUTTON: '.setup-close',
   USER_NAME_INPUT: '.setup-user-name',
   SETUP_SUBMIT_BUTTON: '.setup-submit',
-  SETUP_WIZARD_FORM: '.setup-wizard-form'
+  SETUP_WIZARD_FORM: '.setup-wizard-form',
+  WIZARD_COAT_COLOR: '.wizard-coat',
+  WIZARD_EYES_COLOR: '.wizard-eyes',
+  WIZARD_FIREBALL_COLOR: '.setup-fireball-wrap'
 };
 
 
@@ -31,8 +35,14 @@ var setupPopup = document.querySelector(Selectors.SETUP_POPUP);
 var similarListElement = setupPopup.querySelector(Selectors.SIMILAR_LIST);
 var setupCloseButton = setupPopup.querySelector(Selectors.SETUP_CLOSE_BUTTON);
 var setupNameInput = setupPopup.querySelector(Selectors.USER_NAME_INPUT);
-var setupSubmitButton = setupPopup.querySelector(Selectors.SETUP_SUBMIT_BUTTON);
-var setupWizardForm = setupPopup.querySelector(Selectors.SETUP_WIZARD_FORM);
+var inputCoatColor = setupPopup.querySelector('.coat-color');
+var inputEyesColor = setupPopup.querySelector('.eyes-color');
+var inputFireballColor = setupPopup.querySelector('.fireball-color');
+// var setupSubmitButton = setupPopup.querySelector(Selectors.SETUP_SUBMIT_BUTTON);
+// var setupWizardForm = setupPopup.querySelector(Selectors.SETUP_WIZARD_FORM);
+var wizardCoatColor = setupPopup.querySelector(Selectors.WIZARD_COAT_COLOR);
+var wizardEyesColor = setupPopup.querySelector(Selectors.WIZARD_EYES_COLOR);
+var wizardFireballColor = setupPopup.querySelector(Selectors.WIZARD_FIREBALL_COLOR);
 var setupOpen = document.querySelector(Selectors.SETUP_OPEN);
 var similarWizardTemplate = document.querySelector(Selectors.SIMILAR_WIZARD_TEMPLATE).content.querySelector(Selectors.SIMILAR_LIST_ITEM);
 
@@ -43,16 +53,29 @@ var onPopupEscPress = function (evt) {
   }
 };
 
-// var submitForm = function () {
-//   setupWizardForm.submit();
-// };
+var changeWizardCoatColor = function () {
+  var temp = getRandomElement(COAT_COLORS);
+  wizardCoatColor.style.fill = temp;
+  inputCoatColor.value = temp;
+};
 
-// setupSubmitButton.addEventListener('keydown', function (evt) {
-//   if (evt.keyCode === ENTER_KEYCODE) {
-//     evt.preventDefault();
-//     submitForm();
-//   }
-// });
+var changeWizardEyesColor = function () {
+  var temp = getRandomElement(EYES_COLORS);
+  wizardEyesColor.style.fill = temp;
+  inputEyesColor.value = temp;
+};
+
+var changeWizardfireballColor = function () {
+  var temp = getRandomElement(FIREBALL_COLORS);
+  wizardFireballColor.style.backgroundColor = temp;
+  inputFireballColor.value = temp;
+};
+
+// var changeWizardElementColor = function (element, colorsList) {
+//   var temp = getRandomElement(colorsList);
+//   wizardFireballColor.style.backgroundColor = temp;
+//   inputFireballColor.value = temp;
+// }
 
 setupNameInput.addEventListener('focus', function () {
   document.removeEventListener('keydown', onPopupEscPress);
@@ -61,11 +84,17 @@ setupNameInput.addEventListener('focus', function () {
 var openPopup = function () {
   setupPopup.classList.remove(HIDE_CLASS);
   document.addEventListener('keydown', onPopupEscPress);
+  wizardCoatColor.addEventListener('click', changeWizardCoatColor);
+  wizardEyesColor.addEventListener('click', changeWizardEyesColor);
+  wizardFireballColor.addEventListener('click', changeWizardfireballColor);
 };
 
 var closePopup = function () {
   setupPopup.classList.add(HIDE_CLASS);
   document.removeEventListener('keydown', onPopupEscPress);
+  wizardCoatColor.removeEventListener('click', changeWizardCoatColor);
+  wizardEyesColor.removeEventListener('click', changeWizardEyesColor);
+  wizardFireballColor.removeEventListener('click', changeWizardfireballColor);
 };
 
 setupOpen.addEventListener('click', function () {
