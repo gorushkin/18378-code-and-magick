@@ -8,21 +8,21 @@ var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var HIDE_CLASS = 'hidden';
 
 var Selectors = {
-  wizardName: '.setup-similar-label',
-  coatColor: '.wizard-coat',
-  eyesColor: '.wizard-eyes',
-  setupPopup: '.setup',
-  similarWizardTemplate: '#similar-wizard-template',
-  similarListWrapper: '.setup-similar',
-  similarList: '.setup-similar-list',
-  similarListItem: '.setup-similar-item'
+  WIZARD_NAME: '.setup-similar-label',
+  COAT_COLOR: '.wizard-coat',
+  EYSES_COLOR: '.wizard-eyes',
+  SETUP_POPUP: '.setup',
+  SIMILAR_WIZARD_TEMPLATE: '#similar-wizard-template',
+  SIMILAR_LIST_WRAPPER: '.setup-similar',
+  SIMILAR_LIST: '.setup-similar-list',
+  SIMILAR_LIST_ITEM: '.setup-similar-item'
 };
 
 
-var setupPopup = document.querySelector(Selectors.setupPopup);
+var setupPopup = document.querySelector(Selectors.SETUP_POPUP);
 setupPopup.classList.remove(HIDE_CLASS);
-var similarListElement = setupPopup.querySelector(Selectors.similarList);
-var similarWizardTemplate = document.querySelector(Selectors.similarWizardTemplate).content.querySelector(Selectors.similarListItem);
+var similarListElement = setupPopup.querySelector(Selectors.SIMILAR_LIST);
+var similarWizardTemplate = document.querySelector(Selectors.SIMILAR_WIZARD_TEMPLATE).content.querySelector(Selectors.SIMILAR_LIST_ITEM);
 
 var getRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -38,9 +38,9 @@ var generateWizard = function () {
 
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
-  wizardElement.querySelector(Selectors.wizardName).textContent = wizard.name;
-  wizardElement.querySelector(Selectors.coatColor).style.fill = wizard.coatColor;
-  wizardElement.querySelector(Selectors.eyesColor).style.fill = wizard.eyesColor;
+  wizardElement.querySelector(Selectors.WIZARD_NAME).textContent = wizard.name;
+  wizardElement.querySelector(Selectors.COAT_COLOR).style.fill = wizard.coatColor;
+  wizardElement.querySelector(Selectors.EYSES_COLOR).style.fill = wizard.eyesColor;
   return wizardElement;
 };
 
@@ -54,4 +54,4 @@ for (var i = 0; i < NUMBER_OF_WIZARDS; i++) {
 
 similarListElement.appendChild(fragment);
 
-setupPopup.querySelector(Selectors.similarListWrapper).classList.remove(HIDE_CLASS);
+setupPopup.querySelector(Selectors.SIMILAR_LIST_WRAPPER).classList.remove(HIDE_CLASS);
