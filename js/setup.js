@@ -5,6 +5,8 @@ var LAST_NAMES_LIST = ['да Марья', 'Верон', 'Мирабелла', '�
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var NUMBER_OF_WIZARDS = 4;
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 var HIDE_CLASS = 'hidden';
 
@@ -18,22 +20,43 @@ var Selectors = {
   SIMILAR_LIST: '.setup-similar-list',
   SIMILAR_LIST_ITEM: '.setup-similar-item',
   SETUP_OPEN: '.setup-open',
-  SETUP_CLOSE_BUTTON: '.setup-close'
+  SETUP_CLOSE_BUTTON: '.setup-close',
+  USER_NAME_INPUT: '.setup-user-name',
+  SETUP_SUBMIT_BUTTON: '.setup-submit',
+  SETUP_WIZARD_FORM: '.setup-wizard-form'
 };
 
 
 var setupPopup = document.querySelector(Selectors.SETUP_POPUP);
 var similarListElement = setupPopup.querySelector(Selectors.SIMILAR_LIST);
 var setupCloseButton = setupPopup.querySelector(Selectors.SETUP_CLOSE_BUTTON);
+var setupNameInput = setupPopup.querySelector(Selectors.USER_NAME_INPUT);
+var setupSubmitButton = setupPopup.querySelector(Selectors.SETUP_SUBMIT_BUTTON);
+var setupWizardForm = setupPopup.querySelector(Selectors.SETUP_WIZARD_FORM);
 var setupOpen = document.querySelector(Selectors.SETUP_OPEN);
 var similarWizardTemplate = document.querySelector(Selectors.SIMILAR_WIZARD_TEMPLATE).content.querySelector(Selectors.SIMILAR_LIST_ITEM);
 
 
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === 27) {
+  if (evt.keyCode === ESC_KEYCODE) {
     closePopup();
   }
 };
+
+// var submitForm = function () {
+//   setupWizardForm.submit();
+// };
+
+// setupSubmitButton.addEventListener('keydown', function (evt) {
+//   if (evt.keyCode === ENTER_KEYCODE) {
+//     evt.preventDefault();
+//     submitForm();
+//   }
+// });
+
+setupNameInput.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onPopupEscPress);
+});
 
 var openPopup = function () {
   setupPopup.classList.remove(HIDE_CLASS);
@@ -53,8 +76,14 @@ setupCloseButton.addEventListener('click', function () {
   closePopup();
 });
 
+setupCloseButton.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+});
+
 setupOpen.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === ENTER_KEYCODE) {
     openPopup();
   }
 });
