@@ -43,13 +43,14 @@ var setupNameInput = setupPopup.querySelector(Selectors.USER_NAME_INPUT);
 var inputCoatColor = setupPopup.querySelector(Selectors.SETUP_COAT_COLOR_INPUT);
 var inputEyesColor = setupPopup.querySelector(Selectors.SETUP_EYE_COLOR_INPUT);
 var inputFireballColor = setupPopup.querySelector(Selectors.SETUP_FIREBALL_COLOR_INPUT);
-// var submitSetupFormButton = setupPopup.querySelector(Selectors.SETUP_SUBMIT_BUTTON);
-// var wizardSetupForm = setupPopup.querySelector(Selectors.SETUP_WIZARD_FORM);
+var submitSetupFormButton = setupPopup.querySelector(Selectors.SETUP_SUBMIT_BUTTON);
+var wizardSetupForm = setupPopup.querySelector(Selectors.SETUP_WIZARD_FORM);
 var wizardCoatColor = setupPopup.querySelector(Selectors.WIZARD_COAT_COLOR);
 var wizardEyesColor = setupPopup.querySelector(Selectors.WIZARD_EYES_COLOR);
 var wizardFireballColor = setupPopup.querySelector(Selectors.WIZARD_FIREBALL_COLOR);
 var setupOpen = document.querySelector(Selectors.SETUP_OPEN);
 var similarWizardTemplate = document.querySelector(Selectors.SIMILAR_WIZARD_TEMPLATE).content.querySelector(Selectors.SIMILAR_LIST_ITEM);
+// с именами переменных, которые ноды обозначающие цвет, позже разберусь
 
 setupNameInput.setAttribute('minlength', MIN_USERNAME_INPUT_LENGTH);
 setupNameInput.setAttribute('maxlength', MAX_USERNAME_INPUT_LENGTH);
@@ -60,9 +61,9 @@ var onPopupKeyPress = function (evt) {
   }
 };
 
-// var submitForm = function () {
-//   wizardSetupForm.submit();
-// };
+var submitForm = function () {
+  wizardSetupForm.submit();
+};
 
 var changeWizardCoatColor = function () {
   var tempColor = getRandomElement(COAT_COLORS);
@@ -83,13 +84,12 @@ var changeWizardFireballColor = function () {
 };
 
 var openPopup = function () {
-  // console.log(focusElement);
   setupPopup.classList.remove(HIDE_CLASS);
   document.addEventListener('keydown', onPopupKeyPress);
   wizardCoatColor.addEventListener('click', changeWizardCoatColor);
   wizardEyesColor.addEventListener('click', changeWizardEyesColor);
   wizardFireballColor.addEventListener('click', changeWizardFireballColor);
-  // submitSetupFormButton.addEventListener('click', submitForm);
+  submitSetupFormButton.addEventListener('click', submitForm);
 };
 
 var closePopup = function () {
@@ -98,7 +98,7 @@ var closePopup = function () {
   wizardCoatColor.removeEventListener('click', changeWizardCoatColor);
   wizardEyesColor.removeEventListener('click', changeWizardEyesColor);
   wizardFireballColor.removeEventListener('click', changeWizardFireballColor);
-  // submitSetupFormButton.removeEventListener('click', submitForm);
+  submitSetupFormButton.removeEventListener('click', submitForm);
 };
 
 setupOpen.addEventListener('click', openPopup);
