@@ -54,9 +54,8 @@ var similarWizardTemplate = document.querySelector(Selectors.SIMILAR_WIZARD_TEMP
 setupNameInput.setAttribute('minlength', MIN_USERNAME_INPUT_LENGTH);
 setupNameInput.setAttribute('maxlength', MAX_USERNAME_INPUT_LENGTH);
 
-
 var onPopupKeyPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if ((evt.keyCode === ESC_KEYCODE) && (document.activeElement.tagName !== 'INPUT')) {
     closePopup();
   }
 };
@@ -83,11 +82,8 @@ var changeWizardFireballColor = function () {
   inputFireballColor.value = tempColor;
 };
 
-setupNameInput.addEventListener('focus', function () {
-  document.removeEventListener('keydown', onPopupKeyPress);
-});
-
 var openPopup = function () {
+  // console.log(focusElement);
   setupPopup.classList.remove(HIDE_CLASS);
   document.addEventListener('keydown', onPopupKeyPress);
   wizardCoatColor.addEventListener('click', changeWizardCoatColor);
@@ -105,13 +101,9 @@ var closePopup = function () {
   // submitSetupFormButton.removeEventListener('click', submitForm);
 };
 
-setupOpen.addEventListener('click', function () {
-  openPopup();
-});
+setupOpen.addEventListener('click', openPopup);
 
-closeSetupFormButton.addEventListener('click', function () {
-  closePopup();
-});
+closeSetupFormButton.addEventListener('click', closePopup);
 
 closeSetupFormButton.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
