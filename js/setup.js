@@ -8,6 +8,8 @@ var NUMBER_OF_WIZARDS = 4;
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
+var MIN_USERNAME_INPUT_LENGTH = 2;
+var MAX_USERNAME_INPUT_LENGTH = 25;
 
 var HIDE_CLASS = 'hidden';
 
@@ -48,6 +50,10 @@ var wizardEyesColor = setupPopup.querySelector(Selectors.WIZARD_EYES_COLOR);
 var wizardFireballColor = setupPopup.querySelector(Selectors.WIZARD_FIREBALL_COLOR);
 var setupOpen = document.querySelector(Selectors.SETUP_OPEN);
 var similarWizardTemplate = document.querySelector(Selectors.SIMILAR_WIZARD_TEMPLATE).content.querySelector(Selectors.SIMILAR_LIST_ITEM);
+
+setupNameInput.setAttribute('minlength', MIN_USERNAME_INPUT_LENGTH);
+setupNameInput.setAttribute('maxlength', MAX_USERNAME_INPUT_LENGTH);
+
 
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
