@@ -38,13 +38,13 @@ var Selectors = {
 
 var setupPopup = document.querySelector(Selectors.SETUP_POPUP);
 var similarListElement = setupPopup.querySelector(Selectors.SIMILAR_LIST);
-var setupCloseButton = setupPopup.querySelector(Selectors.SETUP_CLOSE_BUTTON);
+var closeSetupFormButton = setupPopup.querySelector(Selectors.SETUP_CLOSE_BUTTON);
 var setupNameInput = setupPopup.querySelector(Selectors.USER_NAME_INPUT);
 var inputCoatColor = setupPopup.querySelector(Selectors.SETUP_COAT_COLOR_INPUT);
 var inputEyesColor = setupPopup.querySelector(Selectors.SETUP_EYE_COLOR_INPUT);
 var inputFireballColor = setupPopup.querySelector(Selectors.SETUP_FIREBALL_COLOR_INPUT);
-var setupSubmitButton = setupPopup.querySelector(Selectors.SETUP_SUBMIT_BUTTON);
-var setupWizardForm = setupPopup.querySelector(Selectors.SETUP_WIZARD_FORM);
+// var submitSetupFormButton = setupPopup.querySelector(Selectors.SETUP_SUBMIT_BUTTON);
+// var wizardSetupForm = setupPopup.querySelector(Selectors.SETUP_WIZARD_FORM);
 var wizardCoatColor = setupPopup.querySelector(Selectors.WIZARD_COAT_COLOR);
 var wizardEyesColor = setupPopup.querySelector(Selectors.WIZARD_EYES_COLOR);
 var wizardFireballColor = setupPopup.querySelector(Selectors.WIZARD_FIREBALL_COLOR);
@@ -55,65 +55,65 @@ setupNameInput.setAttribute('minlength', MIN_USERNAME_INPUT_LENGTH);
 setupNameInput.setAttribute('maxlength', MAX_USERNAME_INPUT_LENGTH);
 
 
-var onPopupEscPress = function (evt) {
+var onPopupKeyPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     closePopup();
   }
 };
 
-var submitForm = function () {
-  setupWizardForm.submit();
-};
+// var submitForm = function () {
+//   wizardSetupForm.submit();
+// };
 
 var changeWizardCoatColor = function () {
-  var temp = getRandomElement(COAT_COLORS);
-  wizardCoatColor.style.fill = temp;
-  inputCoatColor.value = temp;
+  var tempColor = getRandomElement(COAT_COLORS);
+  wizardCoatColor.style.fill = tempColor;
+  inputCoatColor.value = tempColor;
 };
 
 var changeWizardEyesColor = function () {
-  var temp = getRandomElement(EYES_COLORS);
-  wizardEyesColor.style.fill = temp;
-  inputEyesColor.value = temp;
+  var tempColor = getRandomElement(EYES_COLORS);
+  wizardEyesColor.style.fill = tempColor;
+  inputEyesColor.value = tempColor;
 };
 
-var changeWizardfireballColor = function () {
-  var temp = getRandomElement(FIREBALL_COLORS);
-  wizardFireballColor.style.backgroundColor = temp;
-  inputFireballColor.value = temp;
+var changeWizardFireballColor = function () {
+  var tempColor = getRandomElement(FIREBALL_COLORS);
+  wizardFireballColor.style.backgroundColor = tempColor;
+  inputFireballColor.value = tempColor;
 };
 
 setupNameInput.addEventListener('focus', function () {
-  document.removeEventListener('keydown', onPopupEscPress);
+  document.removeEventListener('keydown', onPopupKeyPress);
 });
 
 var openPopup = function () {
   setupPopup.classList.remove(HIDE_CLASS);
-  document.addEventListener('keydown', onPopupEscPress);
+  document.addEventListener('keydown', onPopupKeyPress);
   wizardCoatColor.addEventListener('click', changeWizardCoatColor);
   wizardEyesColor.addEventListener('click', changeWizardEyesColor);
-  wizardFireballColor.addEventListener('click', changeWizardfireballColor);
-  setupSubmitButton.addEventListener('click', submitForm);
+  wizardFireballColor.addEventListener('click', changeWizardFireballColor);
+  // submitSetupFormButton.addEventListener('click', submitForm);
 };
 
 var closePopup = function () {
   setupPopup.classList.add(HIDE_CLASS);
-  document.removeEventListener('keydown', onPopupEscPress);
+  document.removeEventListener('keydown', onPopupKeyPress);
   wizardCoatColor.removeEventListener('click', changeWizardCoatColor);
   wizardEyesColor.removeEventListener('click', changeWizardEyesColor);
-  wizardFireballColor.removeEventListener('click', changeWizardfireballColor);
-  setupSubmitButton.removeEventListener('click', submitForm);
+  wizardFireballColor.removeEventListener('click', changeWizardFireballColor);
+  // submitSetupFormButton.removeEventListener('click', submitForm);
 };
 
 setupOpen.addEventListener('click', function () {
   openPopup();
 });
 
-setupCloseButton.addEventListener('click', function () {
+closeSetupFormButton.addEventListener('click', function () {
   closePopup();
 });
 
-setupCloseButton.addEventListener('keydown', function (evt) {
+closeSetupFormButton.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     closePopup();
   }
