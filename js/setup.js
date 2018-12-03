@@ -32,7 +32,8 @@ var Selectors = {
   WIZARD_FIREBALL_COLOR: '.setup-fireball-wrap',
   SETUP_COAT_COLOR_INPUT: '.coat-color',
   SETUP_EYE_COLOR_INPUT: '.eyes-color',
-  SETUP_FIREBALL_COLOR_INPUT: '.fireball-color'
+  SETUP_FIREBALL_COLOR_INPUT: '.fireball-color',
+  SETUP_POPUP_USER_PIC: '.upload'
 };
 
 
@@ -43,26 +44,21 @@ var setupNameInput = setupPopup.querySelector(Selectors.USER_NAME_INPUT);
 var inputCoatColor = setupPopup.querySelector(Selectors.SETUP_COAT_COLOR_INPUT);
 var inputEyesColor = setupPopup.querySelector(Selectors.SETUP_EYE_COLOR_INPUT);
 var inputFireballColor = setupPopup.querySelector(Selectors.SETUP_FIREBALL_COLOR_INPUT);
-var submitSetupFormButton = setupPopup.querySelector(Selectors.SETUP_SUBMIT_BUTTON);
-var wizardSetupForm = setupPopup.querySelector(Selectors.SETUP_WIZARD_FORM);
 var wizardCoatColor = setupPopup.querySelector(Selectors.WIZARD_COAT_COLOR);
 var wizardEyesColor = setupPopup.querySelector(Selectors.WIZARD_EYES_COLOR);
 var wizardFireballColor = setupPopup.querySelector(Selectors.WIZARD_FIREBALL_COLOR);
+var setupUserPic = setupPopup.querySelector(Selectors.SETUP_POPUP_USER_PIC);
+// переименовать setupOpen
 var setupOpen = document.querySelector(Selectors.SETUP_OPEN);
 var similarWizardTemplate = document.querySelector(Selectors.SIMILAR_WIZARD_TEMPLATE).content.querySelector(Selectors.SIMILAR_LIST_ITEM);
-// с именами переменных, которые ноды обозначающие цвет, позже разберусь
 
 setupNameInput.setAttribute('minlength', MIN_USERNAME_INPUT_LENGTH);
 setupNameInput.setAttribute('maxlength', MAX_USERNAME_INPUT_LENGTH);
 
 var onPopupKeyPress = function (evt) {
-  if ((evt.keyCode === ESC_KEYCODE) && (document.activeElement.tagName !== 'INPUT')) {
+  if ((evt.keyCode === ESC_KEYCODE) && (document.activeElement.className !== setupNameInput.className)) {
     closePopup();
   }
-};
-
-var submitForm = function () {
-  wizardSetupForm.submit();
 };
 
 var changeWizardCoatColor = function () {
@@ -83,13 +79,22 @@ var changeWizardFireballColor = function () {
   inputFireballColor.value = tempColor;
 };
 
+var initialCords = {
+  x: setupPopup.offsetLeft,
+  y: setupPopup.offsetTop
+};
+
 var openPopup = function () {
   setupPopup.classList.remove(HIDE_CLASS);
   document.addEventListener('keydown', onPopupKeyPress);
   wizardCoatColor.addEventListener('click', changeWizardCoatColor);
   wizardEyesColor.addEventListener('click', changeWizardEyesColor);
   wizardFireballColor.addEventListener('click', changeWizardFireballColor);
-  submitSetupFormButton.addEventListener('click', submitForm);
+  initialCords = {
+    x: setupPopup.offsetLeft,
+    y: setupPopup.offsetTop
+  };
+  console.log(initialCords);
 };
 
 var closePopup = function () {
@@ -98,7 +103,8 @@ var closePopup = function () {
   wizardCoatColor.removeEventListener('click', changeWizardCoatColor);
   wizardEyesColor.removeEventListener('click', changeWizardEyesColor);
   wizardFireballColor.removeEventListener('click', changeWizardFireballColor);
-  submitSetupFormButton.removeEventListener('click', submitForm);
+  setupPopup.style.top = initialCords.y + 'px';
+  setupPopup.style.left = initialCords.x + 'px';
 };
 
 setupOpen.addEventListener('click', openPopup);
@@ -116,7 +122,6 @@ setupOpen.addEventListener('keydown', function (evt) {
     openPopup();
   }
 });
-
 
 var getRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -149,3 +154,59 @@ for (var i = 0; i < NUMBER_OF_WIZARDS; i++) {
 similarListElement.appendChild(fragment);
 
 setupPopup.querySelector(Selectors.SIMILAR_LIST_WRAPPER).classList.remove(HIDE_CLASS);
+
+setupUserPic.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  // var initialCords = {
+  //   x: setupPopup.offsetLeft,
+  //   y: setupPopup.offsetTop
+  // };
+
+  var dragged = false;
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    dragged = true;
+
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    setupPopup.style.top = (setupPopup.offsetTop - shift.y) + 'px';
+    setupPopup.style.left = (setupPopup.offsetLeft - shift.x) + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+
+    if (dragged) {
+      var onClickPreventDefault = function (evt) {
+        evt.preventDefault();
+        setupUserPic.removeEventListener('click', onClickPreventDefault);
+      };
+      setupUserPic.addEventListener('click', onClickPreventDefault);
+    }
+
+    // setupPopup.style.top = initialCords.y + 'px';
+    // setupPopup.style.left = initialCords.x + 'px';
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
