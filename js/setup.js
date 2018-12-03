@@ -94,7 +94,6 @@ var openPopup = function () {
     x: setupPopup.offsetLeft,
     y: setupPopup.offsetTop
   };
-  console.log(initialCords);
 };
 
 var closePopup = function () {
@@ -163,11 +162,6 @@ setupUserPic.addEventListener('mousedown', function (evt) {
     y: evt.clientY
   };
 
-  // var initialCords = {
-  //   x: setupPopup.offsetLeft,
-  //   y: setupPopup.offsetTop
-  // };
-
   var dragged = false;
 
   var onMouseMove = function (moveEvt) {
@@ -196,15 +190,12 @@ setupUserPic.addEventListener('mousedown', function (evt) {
     document.removeEventListener('mouseup', onMouseUp);
 
     if (dragged) {
-      var onClickPreventDefault = function (evt) {
-        evt.preventDefault();
+      var onClickPreventDefault = function (clickEvt) {
+        clickEvt.preventDefault();
         setupUserPic.removeEventListener('click', onClickPreventDefault);
       };
       setupUserPic.addEventListener('click', onClickPreventDefault);
     }
-
-    // setupPopup.style.top = initialCords.y + 'px';
-    // setupPopup.style.left = initialCords.x + 'px';
   };
 
   document.addEventListener('mousemove', onMouseMove);
