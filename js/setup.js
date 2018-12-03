@@ -50,8 +50,7 @@
   var wizardEyesColor = setupPopup.querySelector(Selectors.WIZARD_EYES_COLOR);
   var wizardFireballColor = setupPopup.querySelector(Selectors.WIZARD_FIREBALL_COLOR);
   var setupUserPic = setupPopup.querySelector(Selectors.SETUP_POPUP_USER_PIC);
-  // переименовать setupOpen
-  var setupOpen = document.querySelector(Selectors.SETUP_OPEN);
+  var popupOpenNode = document.querySelector(Selectors.SETUP_OPEN);
   var similarWizardTemplate = document.querySelector(Selectors.SIMILAR_WIZARD_TEMPLATE).content.querySelector(Selectors.SIMILAR_LIST_ITEM);
 
   window.setup = {
@@ -113,7 +112,7 @@
     setupPopup.style.left = initialCords.x + 'px';
   };
 
-  setupOpen.addEventListener('click', openPopup);
+  popupOpenNode.addEventListener('click', openPopup);
 
   closeSetupFormButton.addEventListener('click', closePopup);
 
@@ -123,7 +122,7 @@
     }
   });
 
-  setupOpen.addEventListener('keydown', function (evt) {
+  popupOpenNode.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
       openPopup();
     }
