@@ -6,8 +6,6 @@
     evt.preventDefault();
 
     var windowWidth = document.documentElement.clientWidth;
-    var windowHeight = document.documentElement.clientHeight;
-    var setupPopupHeight = window.setup.setupPopup.offsetHeight;
     var setupPopupWidth = window.setup.setupPopup.offsetWidth;
 
     var startCoords = {
@@ -49,8 +47,6 @@
       }
       if (window.setup.setupPopup.offsetTop < 0) {
         window.setup.setupPopup.style.top = 0 + 'px';
-      } else if (window.setup.setupPopup.offsetTop > windowHeight - setupPopupHeight) {
-        window.setup.setupPopup.style.top = (windowHeight - setupPopupHeight) + 'px';
       }
 
       if (dragged) {
