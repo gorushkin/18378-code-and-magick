@@ -132,6 +132,8 @@
     return arr[Math.floor(Math.random() * arr.length)];
   };
 
+
+  // заменить эту функцию
   var generateWizard = function () {
     var newWizard = {};
     newWizard.name = getRandomElement(FIRST_NAMES_LIST) + ' ' + getRandomElement(LAST_NAMES_LIST);
@@ -139,6 +141,19 @@
     newWizard.eyesColor = getRandomElement(EYES_COLORS);
     return newWizard;
   };
+
+  // -------
+  var onSuccess = function (data) {
+    console.log(data);
+  };
+
+  var onError = function (error) {
+    console.log(error);
+  };
+
+  window.load('https://js.dump.academy/code-and-magick/data', onSuccess, onError);
+
+  // -------
 
   var renderWizard = function (wizard) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
