@@ -2,8 +2,8 @@
 
 (function () {
 
-  var FIRST_NAMES_LIST = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-  var LAST_NAMES_LIST = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
+  // var FIRST_NAMES_LIST = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
+  // var LAST_NAMES_LIST = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
   var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
   var NUMBER_OF_WIZARDS = 4;
@@ -50,6 +50,7 @@
   var wizardEyesColor = setupPopup.querySelector(Selectors.WIZARD_EYES_COLOR);
   var wizardFireballColor = setupPopup.querySelector(Selectors.WIZARD_FIREBALL_COLOR);
   var setupUserPic = setupPopup.querySelector(Selectors.SETUP_POPUP_USER_PIC);
+  var setupWizardForm = setupPopup.querySelector(Selectors.SETUP_WIZARD_FORM);
   var popupOpenNode = document.querySelector(Selectors.SETUP_OPEN);
   var similarWizardTemplate = document.querySelector(Selectors.SIMILAR_WIZARD_TEMPLATE).content.querySelector(Selectors.SIMILAR_LIST_ITEM);
 
@@ -60,6 +61,13 @@
 
   setupNameInput.setAttribute('minlength', MIN_USERNAME_INPUT_LENGTH);
   setupNameInput.setAttribute('maxlength', MAX_USERNAME_INPUT_LENGTH);
+
+  setupWizardForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.upload(new FormData(setupWizardForm), function (response) {
+      closePopup();
+    });
+  });
 
   var onPopupKeyPress = function (evt) {
     if ((evt.keyCode === ESC_KEYCODE) && (document.activeElement.className !== setupNameInput.className)) {
@@ -132,28 +140,13 @@
     return arr[Math.floor(Math.random() * arr.length)];
   };
 
-
-  // заменить эту функцию
-  var generateWizard = function () {
+  var generateWizard = function (wizard) {
     var newWizard = {};
-    newWizard.name = getRandomElement(FIRST_NAMES_LIST) + ' ' + getRandomElement(LAST_NAMES_LIST);
-    newWizard.coatColor = getRandomElement(COAT_COLORS);
-    newWizard.eyesColor = getRandomElement(EYES_COLORS);
+    newWizard.name = wizard.name;
+    newWizard.coatColor = wizard.colorCoat;
+    newWizard.eyesColor = wizard.colorEyes;
     return newWizard;
   };
-
-  // -------
-  var onSuccess = function (data) {
-    console.log(data);
-  };
-
-  var onError = function (error) {
-    console.log(error);
-  };
-
-  window.load('https://js.dump.academy/code-and-magick/data', onSuccess, onError);
-
-  // -------
 
   var renderWizard = function (wizard) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
@@ -163,16 +156,34 @@
     return wizardElement;
   };
 
+  openPopup();
   var wizardList = [];
-  var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < NUMBER_OF_WIZARDS; i++) {
-    wizardList.push(generateWizard());
-    fragment.appendChild(renderWizard(wizardList[i]));
-  }
+  var onError = function (message) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
 
-  similarListElement.appendChild(fragment);
+    node.textContent = message;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
 
-  setupPopup.querySelector(Selectors.SIMILAR_LIST_WRAPPER).classList.remove(HIDE_CLASS);
+  var onSuccess = function (wizards) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < NUMBER_OF_WIZARDS; i++) {
+      wizardList.push(generateWizard(wizards[i]));
+      fragment.appendChild(renderWizard(wizardList[i]));
+    }
+
+    similarListElement.appendChild(fragment);
+
+    setupPopup.querySelector(Selectors.SIMILAR_LIST_WRAPPER).classList.remove(HIDE_CLASS);
+  };
+
+  window.load(onSuccess, onError);
 
 })();
