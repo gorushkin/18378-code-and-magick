@@ -35,8 +35,6 @@
 
     xhr.addEventListener('load', function () {
       onSuccess(xhr.response);
-      console.log('sended');
-
     });
 
     xhr.open('POST', POSTURL);
